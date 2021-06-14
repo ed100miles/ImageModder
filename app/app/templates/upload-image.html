@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Image Upload{% endblock %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Modify Image</h1>
+      <hr>
+      <form action="/upload-image" method='POST' enctype='multipart/form-data'>
+        <div class="form-group">
+          <h4>Select an Image</h4>
+            {% if wrong_ext %}
+              <p class='wrong_ext'>.jpeg, .jpg, .png, or .gif files only please</p>
+            {% endif %}
+          <div class="custom-file">
+            <input type="file" class='custom-file-input' name='image' id='image'>
+          </div>
+        </div>
+        <br>
+        <button class='btn btn-primary' type='submit'>Load New Image</button>
+      </form>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class='user_img_container'>
+  {% if image %}
+  <div>
+    <h4>Origional Image</h4>
+    <img src="data:image/jpeg;base64, {{image}}" class='user_img' id='user_img'>
+    <hr>
+    <h4>Modified Image</h4>
+    <img src="data:image/jpeg;base64, {{image}}" class='mod_img' id='mod_img'>
+  </div>
+  <!-- Async change img bit... -->
+  <div>
+    <h1>Mod Tools</h1>
+    <hr>
+    <div>
+      <div class="form-group">
+        <label>Brightness</label>
+        <input type='range' class='form-range' min='0' max='2' step='0.001' id='brightness' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Saturation</label>
+        <input type='range' class='form-range' min='0' max='2' step='0.001' id='saturation' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Blur/Sharpen</label>
+        <input type='range' class='form-range' min='-5' max='5' step='0.001' id='blur_sharp' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Redness</label>
+        <input type='range' class='form-range' min='0' max='2' step='0.001' id='redness' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Greenness</label>
+        <input type='range' class='form-range' min='0' max='2' step='0.001' id='greenness' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Blueness</label>
+        <input type='range' class='form-range' min='0' max='2' step='0.001' id='blueness' onchange='imgMod()'>
+      </div>
+      <div class="form-group">
+        <label>Rotate</label>
+        <input type='range' class='form-range' min='-2' max='2' step='1' id='rotation' onchange='imgMod()'>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+body{
+    background-color: #f1f1f1;
+    margin: 0
+}
+
+.user_img_container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 1vh;
+}
+
+.user_img{
+    max-width: 50vw; 
+    height: auto;
+}
+
+.mod_img{
+    max-width: 50vw; 
+    height: auto;
+}
+
+.wrong_ext{
+    color: red;
+}
