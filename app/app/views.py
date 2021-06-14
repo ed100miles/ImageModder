@@ -40,7 +40,7 @@ def uploadimage():
             rotation_val = int(req['rotation'])
             image_base64_str = req['img']
             # Base64 str to nparr so can perform opencv operations
-            print(rotation_val)
+            # print(rotation_val)
             img = imgMods.b64_to_nparr(image_base64_str)
             
             mod_img = imgMods.bgr_intensity(img, blueness_val, greenness_val, redness_val)
