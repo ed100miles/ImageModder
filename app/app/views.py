@@ -13,7 +13,7 @@ def index():
 
 @app.route('/upload-image', methods=['POST', 'GET'])
 def uploadimage():
-    ok_file_exts = ['jpg', 'jpeg', 'png', 'gif']
+    ok_file_exts = ['jpg', 'jpeg', 'png', 'gif', 'JPG', 'JPEG', 'PNG', 'GIF']
     wrong_ext = False
     if request.method == 'POST':
         try:
