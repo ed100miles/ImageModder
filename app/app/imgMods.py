@@ -4,6 +4,28 @@ import base64
 from PIL import Image
 from io import BytesIO
 from app import imgMods
+from flask import make_response, jsonify
+
+def process_request(req):
+                ####### BGR RGB HACKY FIX  --- NEEDS PROPPER FIX ####
+                blueness_val = float(req['redness'])
+                redness_val = float(req['blueness'])
+                greenness_val = float(req['greenness'])
+                brightness_val = float(req['brightness'])
+                saturation_val = float(req['saturation'])
+                blur_sharp_val = float(req['blur_sharp'])
+                rotation_val = int(req['rotation'])
+                image_base64_str = req['img']
+                # Base64 str to nparr so can perform opencv operations:
+                img = imgMods.b64_to_nparr(image_base64_str)
+                
+                mod_img = imgMods.bgr_intensity(img, blueness_val, greenness_val, redness_val)
+                mod_img = imgMods.brightness_saturation_mod(mod_img, brightness_val, saturation_val)
+                mod_img = imgMods.blur_sharp_mod(mod_img, blur_sharp_val)
+                mod_img = np.rot90(mod_img, -rotation_val)
+
+                mod_img_b64 = imgMods.np_img_to_b64(mod_img)
+                return make_response(jsonify(mod_img_b64), 200)
 
 def upload_img_to_base64(img):
     '''Decode img from bytes to np.array. Then convert to base64str'''
@@ -69,7 +91,6 @@ def unsharp_mask(image, kernel_size=(5, 5), sigma=1.0, amount=0.0, threshold=0):
         np.copyto(sharpened, image, where=low_contrast_mask)
     return sharpened
 
-
 def blur_sharp_mod(mod_img, blur_sharp_val):
     if blur_sharp_val > 0:
         mod_img = imgMods.unsharp_mask(mod_img, amount=blur_sharp_val)
@@ -78,3 +99,4 @@ def blur_sharp_mod(mod_img, blur_sharp_val):
             kernel = (5,5)
             mod_img = cv2.GaussianBlur(mod_img, kernel, 0)
     return mod_img
+
