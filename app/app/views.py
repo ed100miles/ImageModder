@@ -5,6 +5,8 @@ import numpy as np
 import base64
 from app import imgMods
 
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+
 @app.route('/')
 def index():
     return redirect('/upload-image')
@@ -24,7 +26,10 @@ def uploadimage():
                 wrong_ext = True
                 return render_template('upload-image.html', wrong_ext = wrong_ext)
         except Exception as e: # TODO: fix this awful exception handling!!!
-            print(e)
+            if str(e)[:3] == '413': # if 413 - if Req Entity Too Large:
+                return render_template('upload-image.html', big_file=True)
+            else:
+                print(repr(e))
         # else imgMods performs operations on the existing image:
         req = request.get_json()
         if req != None:

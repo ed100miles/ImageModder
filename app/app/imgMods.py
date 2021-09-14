@@ -25,6 +25,7 @@ def process_request(req):
                 mod_img = np.rot90(mod_img, -rotation_val)
 
                 mod_img_b64 = imgMods.np_img_to_b64(mod_img)
+                del mod_img # for gc
                 return make_response(jsonify(mod_img_b64), 200)
 
 def upload_img_to_base64(img):

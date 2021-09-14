@@ -11,9 +11,12 @@
       <hr>
       <form action="/upload-image" method='POST' enctype='multipart/form-data'>
         <div class="form-group">
-          <h3>Select an Image</h3>
+          <h3>Select an Image<p>(Up to 1MB)</p></h3>
             {% if wrong_ext %}
               <p class='wrong_ext'>.jpeg, .jpg, .png, or .gif files only please</p>
+            {% endif %}
+            {% if big_file %}
+              <p class="wrong_ext">Sorry, that file exceeds 1MB</p>
             {% endif %}
           <div class="custom-file">
             <input type="file" class='custom-file-input' name='image' id='image'>
